@@ -9,7 +9,7 @@
             "email": "rudy.mas@rudymas.be"
         }
     ],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "require": {
 		"php": ">= 5.3.0 || >= 7.0"
 	},
