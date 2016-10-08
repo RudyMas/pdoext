@@ -1,5 +1,7 @@
 <?php
 namespace RudyMas\PDOExt;
+use PDO;
+use PDOException;
 
 /**
  * DBconnect -> PDO (Uses UTF8 character set)
@@ -7,7 +9,7 @@ namespace RudyMas\PDOExt;
  * @author      Rudy Mas <rudy.mas@rudymas.be>
  * @copyright   2014-2016, rudymas.be. (http://www.rudymas.be/)
  * @license     https://opensource.org/licenses/GPL-3.0 GNU General Public License, version 3 (GPL-3.0)
- * @version     3.0.0
+ * @version     3.0.1
  */
 class DBconnect extends PDO
 {
@@ -19,24 +21,24 @@ class DBconnect extends PDO
      *
      * The parameters can be configured to have default values
      * @param string $host
-     * @param string $gebruiker
-     * @param string $paswoord
+     * @param string $username
+     * @param string $password
      * @param string $dbname
      * @param string $charset
      * @param string $dbtype
      * @throws PDOException
      */
-    public function __construct($host = 'localhost', $gebruiker = 'root', $paswoord = '', $dbname = 'wm_proj1', $charset = 'utf8', $dbtype = 'mysql')
+    public function __construct($host = 'localhost', $username = 'username', $password = 'password', $dbname = 'dbname', $charset = 'utf8', $dbtype = 'mysql')
     {
         try {
             switch (strtolower($dbtype)) {
                 case 'mysql':
-                    parent::__construct('mysql:host=' . $host . ';charset=' . $charset . ';dbname=' . $dbname, $gebruiker, $paswoord);
+                    parent::__construct('mysql:host=' . $host . ';charset=' . $charset . ';dbname=' . $dbname, $username, $password);
                     // parent::setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
                     parent::setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                     break;
                 default:
-                    die ($dbtype . ' wordt nog niet ondersteund!');
+                    die ($dbtype . ' isn\'t implemented yet!');
             }
         } catch (PDOException $exception) {
             throw $exception;
@@ -133,7 +135,7 @@ class DBconnect extends PDO
             $this->query($query);
             if ($this->rows == 0) return FALSE;
             $this->fetch(0);
-            return ($this->data);
+            return $this->data;
         } catch (PDOException $exception) {
             throw $exception;
         }
