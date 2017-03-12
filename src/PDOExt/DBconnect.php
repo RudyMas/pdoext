@@ -1,15 +1,17 @@
 <?php
 namespace RudyMas\PDOExt;
+
 use PDO;
 use PDOException;
 
 /**
- * DBconnect -> PDO (Uses UTF8 character set)
+ * Class DBconnect (PHP version 7.0)
  *
- * @author      Rudy Mas <rudy.mas@rudymas.be>
- * @copyright   2014-2016, rudymas.be. (http://www.rudymas.be/)
+ * @author      Rudy Mas <rudy.mas@rmsoft.be>
+ * @copyright   2014-2016, rmsoft.be. (http://www.rmsoft.be/)
  * @license     https://opensource.org/licenses/GPL-3.0 GNU General Public License, version 3 (GPL-3.0)
- * @version     3.0.1
+ * @version     4.0.0
+ * @package     RudyMas\PDOExt
  */
 class DBconnect extends PDO
 {
@@ -28,7 +30,7 @@ class DBconnect extends PDO
      * @param string $dbtype
      * @throws PDOException
      */
-    public function __construct($host = 'localhost', $username = 'username', $password = 'password', $dbname = 'dbname', $charset = 'utf8', $dbtype = 'mysql')
+    public function __construct(string $host = 'localhost', string $username = 'username', string $password = 'password', string $dbname = 'dbname', string $charset = 'utf8', string $dbtype = 'mysql')
     {
         try {
             switch (strtolower($dbtype)) {
@@ -50,9 +52,9 @@ class DBconnect extends PDO
      * Use this for SELECT queries
      *
      * @param string $query
-     * @throws PDOException
+     * @return \PDOStatement|void
      */
-    public function query($query)
+    public function query(string $query): void
     {
         try {
             $this->result = parent::query($query);
@@ -70,9 +72,8 @@ class DBconnect extends PDO
      * This function is used for internal queries which don't use SELECT
      *
      * @param string $query
-     * @throws PDOException
      */
-    private function execQuery($query)
+    private function execQuery(string $query): void
     {
         try {
             $this->rows = parent::exec($query);
@@ -87,7 +88,7 @@ class DBconnect extends PDO
      *
      * @param int $row
      */
-    public function fetch($row)
+    public function fetch(int $row): void
     {
         $this->data = $this->internalData[$row];
     }
@@ -107,10 +108,9 @@ class DBconnect extends PDO
      *
      * @param string $query
      * @param string $field
-     * @throws PDOException
-     * @return mixed
+     * @return array
      */
-    public function queryItem($query, $field)
+    public function queryItem(string $query, string $field): array
     {
         try {
             $this->query($query);
@@ -126,10 +126,9 @@ class DBconnect extends PDO
      * This function will retrieve the first row from the executed query
      *
      * @param string $query
-     * @throws PDOException
-     * @return mixed Returns FALSE if no data was found
+     * @return mixed
      */
-    public function queryRow($query)
+    public function queryRow(string $query): mixed
     {
         try {
             $this->query($query);
@@ -146,9 +145,8 @@ class DBconnect extends PDO
      * Use this function to insert data in the database
      *
      * @param string $query
-     * @throws PDOException
      */
-    public function insert($query)
+    public function insert(string $query): void
     {
         try {
             $this->execQuery($query);
@@ -162,9 +160,8 @@ class DBconnect extends PDO
      * Use this function to update data in the database
      *
      * @param string $query
-     * @throws PDOException
      */
-    public function update($query)
+    public function update(string $query): void
     {
         try {
             $this->execQuery($query);
@@ -178,9 +175,8 @@ class DBconnect extends PDO
      * Use this function to delete data from the database
      *
      * @param string $query
-     * @throws PDOException
      */
-    public function delete($query)
+    public function delete(string $query): void
     {
         try {
             $this->execQuery($query);
@@ -194,10 +190,10 @@ class DBconnect extends PDO
      * Use this function when you want to use a prepared statement
      *
      * @param string $statement
-     * @param array $options (Default = NULL)
-     * @throws PDOException
+     * @param array $options
+     * @return \PDOStatement|void
      */
-    public function prepare($statement, $options = NULL)
+    public function prepare(string $statement, array $options = []): void
     {
         try {
             $this->result = parent::prepare($statement, $options);
@@ -220,9 +216,8 @@ class DBconnect extends PDO
      *      - For more information: <a href="http://php.net/manual/en/pdo.constants.php">Predefined Constants</a>
      * @param int $maxlen
      * @param mixed $driverdata
-     * @throws PDOException
      */
-    public function bindParam($paramno, $param, $type, $maxlen, $driverdata)
+    public function bindParam(mixed $paramno, mixed $param, int $type, int $maxlen, mixed $driverdata): void
     {
         try {
             $this->result->bindParam($paramno, $param, $type, $maxlen, $driverdata);
@@ -243,9 +238,8 @@ class DBconnect extends PDO
      *      - PDO::PARAM_INT = Represents the SQL INTEGER data type
      *      - PDO::PARAM_STR = Represents the SQL CHAR, VARCHAR, or other string data type
      *      - For more information: <a href="http://php.net/manual/en/pdo.constants.php">Predefined Constants</a>
-     * @throws PDOException
      */
-    public function bindValue($paramno, $param, $type)
+    public function bindValue(mixed $paramno, mixed $param, int $type): void
     {
         try {
             $this->result->bindValue($paramno, $param, $type);
@@ -259,13 +253,11 @@ class DBconnect extends PDO
      * Executes a prepared statement
      *
      * @param array $bound_input_params
-     * @throws PDOException
      */
-    public function execute($bound_input_params)
+    public function execute(array $bound_input_params = []): void
     {
         try {
-            $this->rows = $this->result->execute($bound_input_params);
-            if ($this->rows > 0) {
+            if ($this->result->execute($bound_input_params)) {
                 $this->internalData = $this->result->fetchAll(PDO::FETCH_ASSOC);
             }
         } catch (PDOException $exception) {
@@ -274,23 +266,22 @@ class DBconnect extends PDO
     }
 
     /**
-     * functon cleanSQL($inhoud)
+     * functon cleanSQL($content)
      * Quotes a string for use in a query.
      *
-     * @param string $inhoud
-     * @throws PDOException
-     * @return string $uitvoer
+     * @param string $content
+     * @return string
      */
-    public function cleanSQL($inhoud)
+    public function cleanSQL(string $content): string
     {
         try {
-            $inhoud = htmlentities($inhoud, ENT_HTML5, 'UTF-8');
-            if ($inhoud == NULL) {
-                $uitvoer = parent::quote(NULL);
+            $content = htmlentities($content, ENT_HTML5, 'UTF-8');
+            if ($content == null) {
+                $output = parent::quote(null);
             } else {
-                $uitvoer = parent::quote($inhoud);
+                $output = parent::quote($content);
             }
-            return $uitvoer;
+            return $output;
         } catch (PDOException $exception) {
             throw $exception;
         }
