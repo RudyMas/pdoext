@@ -10,7 +10,7 @@ use PDOException;
  * @author      Rudy Mas <rudy.mas@rmsoft.be>
  * @copyright   2014-2016, rmsoft.be. (http://www.rmsoft.be/)
  * @license     https://opensource.org/licenses/GPL-3.0 GNU General Public License, version 3 (GPL-3.0)
- * @version     4.0.1
+ * @version     4.1.0
  * @package     RudyMas\PDOExt
  */
 class DBconnect extends PDO
@@ -263,6 +263,15 @@ class DBconnect extends PDO
         } catch (PDOException $exception) {
             throw $exception;
         }
+    }
+
+    /**
+     * @param null|string $name
+     * @return string
+     */
+    public function lastInsertId($name = null): string
+    {
+        return parent::lastInsertId($name);
     }
 
     /**
