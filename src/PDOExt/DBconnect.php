@@ -8,9 +8,9 @@ use PDOException;
  * Class DBconnect (PHP version 7.0)
  *
  * @author      Rudy Mas <rudy.mas@rmsoft.be>
- * @copyright   2014-2016, rmsoft.be. (http://www.rmsoft.be/)
+ * @copyright   2014-2017, rmsoft.be. (http://www.rmsoft.be/)
  * @license     https://opensource.org/licenses/GPL-3.0 GNU General Public License, version 3 (GPL-3.0)
- * @version     4.1.0
+ * @version     4.2.0
  * @package     RudyMas\PDOExt
  */
 class DBconnect extends PDO
@@ -294,6 +294,18 @@ class DBconnect extends PDO
         } catch (PDOException $exception) {
             throw $exception;
         }
+    }
+
+    /**
+     * function uncleanSQL($content)
+     * Undo htmlenitities on saved data
+     *
+     * @param string $content
+     * @return string
+     */
+    public function uncleanSQL(string $content): string
+    {
+        return html_entity_decode($content, ENT_HTML5, 'UTF-8');
     }
 }
 /** End of File: DBconnect.php **/
