@@ -10,7 +10,7 @@ use PDOException;
  * @author      Rudy Mas <rudy.mas@rmsoft.be>
  * @copyright   2014-2017, rmsoft.be. (http://www.rmsoft.be/)
  * @license     https://opensource.org/licenses/GPL-3.0 GNU General Public License, version 3 (GPL-3.0)
- * @version     4.2.0
+ * @version     4.2.1
  * @package     RudyMas\PDOExt
  */
 class DBconnect extends PDO
@@ -190,10 +190,10 @@ class DBconnect extends PDO
      * Use this function when you want to use a prepared statement
      *
      * @param string $statement
-     * @param null $options
+     * @param array $options
      * @return \PDOStatement|void
      */
-    public function prepare($statement, $options = null): void
+    public function prepare($statement, array $options = []): void
     {
         try {
             $this->result = parent::prepare($statement, $options);
@@ -203,46 +203,46 @@ class DBconnect extends PDO
     }
 
     /**
-     * function bindParam($paramno, $param, $type, $maxlen, $driverdata)
+     * function bindParam($parameter, $variable, $dataType, $length, $driverOptions)
      * Binds a parameter to the specified variable name
      *
-     * @param mixed $paramno
-     * @param mixed $param
-     * @param int $type
+     * @param $parameter
+     * @param $variable
+     * @param int $dataType
      *      - PDO::PARAM_BOOL = Represents a boolean data type
      *      - PDO::PARAM_NULL = Represents the SQL NULL data type
      *      - PDO::PARAM_INT = Represents the SQL INTEGER data type
      *      - PDO::PARAM_STR = Represents the SQL CHAR, VARCHAR, or other string data type
      *      - For more information: <a href="http://php.net/manual/en/pdo.constants.php">Predefined Constants</a>
-     * @param int $maxlen
-     * @param mixed $driverdata
+     * @param null $length
+     * @param null $driverOptions
      */
-    public function bindParam(mixed $paramno, mixed $param, int $type, int $maxlen, mixed $driverdata): void
+    public function bindParam($parameter, $variable, $dataType = PDO::PARAM_STR, $length = null, $driverOptions = null): void
     {
         try {
-            $this->result->bindParam($paramno, $param, $type, $maxlen, $driverdata);
+            $this->result->bindParam($parameter, $variable, $dataType, $length, $driverOptions);
         } catch (PDOException $exception) {
             throw $exception;
         }
     }
 
     /**
-     * function bindValue($paramno, $param, $type)
+     * function bindValue($parameter, $value, $dataType)
      * Binds a value to a parameter
      *
-     * @param mixed $paramno
-     * @param mixed $param
-     * @param int $type
+     * @param $parameter
+     * @param $value
+     * @param int $dataType
      *      - PDO::PARAM_BOOL = Represents a boolean data type
      *      - PDO::PARAM_NULL = Represents the SQL NULL data type
      *      - PDO::PARAM_INT = Represents the SQL INTEGER data type
      *      - PDO::PARAM_STR = Represents the SQL CHAR, VARCHAR, or other string data type
      *      - For more information: <a href="http://php.net/manual/en/pdo.constants.php">Predefined Constants</a>
      */
-    public function bindValue(mixed $paramno, mixed $param, int $type): void
+    public function bindValue($parameter, $value, $dataType = PDO::PARAM_STR): void
     {
         try {
-            $this->result->bindValue($paramno, $param, $type);
+            $this->result->bindValue($parameter, $value, $dataType);
         } catch (PDOException $exception) {
             throw $exception;
         }
@@ -252,12 +252,12 @@ class DBconnect extends PDO
      * function execute($bound_input_params)
      * Executes a prepared statement
      *
-     * @param array $bound_input_params
+     * @param array|null $input_params
      */
-    public function execute(array $bound_input_params = []): void
+    public function execute(array $input_params = null): void
     {
         try {
-            if ($this->result->execute($bound_input_params)) {
+            if ($this->result->execute($input_params)) {
                 $this->internalData = $this->result->fetchAll(PDO::FETCH_ASSOC);
             }
         } catch (PDOException $exception) {
