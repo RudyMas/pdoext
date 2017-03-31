@@ -1,4 +1,5 @@
 <?php
+
 namespace RudyMas\PDOExt;
 
 use PDO;
@@ -10,7 +11,7 @@ use PDOException;
  * @author      Rudy Mas <rudy.mas@rmsoft.be>
  * @copyright   2014-2016, rmsoft.be. (http://www.rmsoft.be/)
  * @license     https://opensource.org/licenses/GPL-3.0 GNU General Public License, version 3 (GPL-3.0)
- * @version     4.1.0
+ * @version     4.2.0
  * @package     RudyMas\PDOExt
  */
 class DBconnect extends PDO
@@ -28,15 +29,19 @@ class DBconnect extends PDO
      * @param string $dbname
      * @param string $charset
      * @param string $dbtype
-     * @throws PDOException
+     * @param int $port
      */
-    public function __construct(string $host = 'localhost', string $username = 'username', string $password = 'password', string $dbname = 'dbname', string $charset = 'utf8', string $dbtype = 'mysql')
+    public function __construct(string $host = 'localhost', string $username = 'username', string $password = 'password', string $dbname = 'dbname', string $charset = 'utf8', string $dbtype = 'mysql', int $port = 3306)
     {
         try {
             switch (strtolower($dbtype)) {
                 case 'mysql':
-                    parent::__construct('mysql:host=' . $host . ';charset=' . $charset . ';dbname=' . $dbname, $username, $password);
+                    parent::__construct("mysql:host={$host};port={$port};charset= {$charset};dbname={$dbname}", $username, $password);
                     // parent::setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+                    parent::setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                    break;
+                case 'sqlsrv':
+                    parent::__construct("sqlsrv:server = tcp:{$host},{$port}; Database = {$dbname}", $username, $password);
                     parent::setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                     break;
                 default:
