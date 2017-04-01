@@ -11,7 +11,7 @@ use PDOException;
  * @author      Rudy Mas <rudy.mas@rmsoft.be>
  * @copyright   2014-2017, rmsoft.be. (http://www.rmsoft.be/)
  * @license     https://opensource.org/licenses/GPL-3.0 GNU General Public License, version 3 (GPL-3.0)
- * @version     5.0.0
+ * @version     5.0.1
  * @package     RudyMas\PDOExt
  */
 class DBconnect extends PDO
@@ -24,19 +24,19 @@ class DBconnect extends PDO
      *
      * The parameters can be configured to have default values
      * @param string $host
+     * @param int $port
      * @param string $username
      * @param string $password
      * @param string $dbname
      * @param string $charset
      * @param string $dbtype
-     * @param int $port
      */
     public function __construct(string $host = 'localhost', int $port = 3306, string $username = 'username', string $password = 'password', string $dbname = 'dbname', string $charset = 'utf8', string $dbtype = 'mysql')
     {
         try {
             switch (strtolower($dbtype)) {
                 case 'mysql':
-                    parent::__construct("mysql:host={$host};port={$port};charset= {$charset};dbname={$dbname}", $username, $password);
+                    parent::__construct("mysql:host={$host};port={$port};charset={$charset};dbname={$dbname}", $username, $password);
                     // parent::setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
                     parent::setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                     break;
