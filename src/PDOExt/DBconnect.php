@@ -11,7 +11,7 @@ use PDOException;
  * @author      Rudy Mas <rudy.mas@rmsoft.be>
  * @copyright   2014-2017, rmsoft.be. (http://www.rmsoft.be/)
  * @license     https://opensource.org/licenses/GPL-3.0 GNU General Public License, version 3 (GPL-3.0)
- * @version     5.0.2
+ * @version     5.0.3
  * @package     RudyMas\PDOExt
  */
 class DBconnect extends PDO
@@ -59,7 +59,7 @@ class DBconnect extends PDO
      * @param string $query
      * @return \PDOStatement|void
      */
-    public function query(string $query): void
+    public function query(string $query)
     {
         try {
             $this->result = parent::query($query);
@@ -78,7 +78,7 @@ class DBconnect extends PDO
      *
      * @param string $query
      */
-    private function execQuery(string $query): void
+    private function execQuery(string $query)
     {
         try {
             $this->rows = parent::exec($query);
@@ -93,7 +93,7 @@ class DBconnect extends PDO
      *
      * @param int $row
      */
-    public function fetch(int $row): void
+    public function fetch(int $row)
     {
         $this->data = $this->internalData[$row];
     }
@@ -151,7 +151,7 @@ class DBconnect extends PDO
      *
      * @param string $query
      */
-    public function insert(string $query): void
+    public function insert(string $query)
     {
         try {
             $this->execQuery($query);
@@ -166,7 +166,7 @@ class DBconnect extends PDO
      *
      * @param string $query
      */
-    public function update(string $query): void
+    public function update(string $query)
     {
         try {
             $this->execQuery($query);
@@ -181,7 +181,7 @@ class DBconnect extends PDO
      *
      * @param string $query
      */
-    public function delete(string $query): void
+    public function delete(string $query)
     {
         try {
             $this->execQuery($query);
@@ -198,7 +198,7 @@ class DBconnect extends PDO
      * @param array $options
      * @return \PDOStatement|void
      */
-    public function prepare($statement, $options = []): void
+    public function prepare($statement, array $options = [])
     {
         try {
             $this->result = parent::prepare($statement, $options);
@@ -222,7 +222,7 @@ class DBconnect extends PDO
      * @param null $length
      * @param null $driverOptions
      */
-    public function bindParam($parameter, $variable, $dataType = PDO::PARAM_STR, $length = null, $driverOptions = null): void
+    public function bindParam($parameter, $variable, $dataType = PDO::PARAM_STR, $length = null, $driverOptions = null)
     {
         try {
             $this->result->bindParam($parameter, $variable, $dataType, $length, $driverOptions);
@@ -244,7 +244,7 @@ class DBconnect extends PDO
      *      - PDO::PARAM_STR = Represents the SQL CHAR, VARCHAR, or other string data type
      *      - For more information: <a href="http://php.net/manual/en/pdo.constants.php">Predefined Constants</a>
      */
-    public function bindValue($parameter, $value, $dataType = PDO::PARAM_STR): void
+    public function bindValue($parameter, $value, $dataType = PDO::PARAM_STR)
     {
         try {
             $this->result->bindValue($parameter, $value, $dataType);
@@ -259,7 +259,7 @@ class DBconnect extends PDO
      *
      * @param array|null $input_params
      */
-    public function execute(array $input_params = null): void
+    public function execute(array $input_params = null)
     {
         try {
             if ($this->result->execute($input_params)) {
