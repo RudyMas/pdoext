@@ -11,7 +11,7 @@ use PDOException;
  * @author      Rudy Mas <rudy.mas@rmsoft.be>
  * @copyright   2014-2017, rmsoft.be. (http://www.rmsoft.be/)
  * @license     https://opensource.org/licenses/GPL-3.0 GNU General Public License, version 3 (GPL-3.0)
- * @version     5.0.4
+ * @version     5.1.0
  * @package     RudyMas\PDOExt
  */
 class DBconnect extends PDO
@@ -63,10 +63,8 @@ class DBconnect extends PDO
     {
         try {
             $this->result = parent::query($query);
-            $this->rows = $this->result->rowCount();
-            if ($this->rows > 0) {
-                $this->internalData = $this->result->fetchAll(PDO::FETCH_ASSOC);
-            }
+            $this->internalData = $this->result->fetchAll(PDO::FETCH_ASSOC);
+            $this->rows = count($this->internalData);
         } catch (PDOException $exception) {
             throw $exception;
         }
