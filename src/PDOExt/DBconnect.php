@@ -11,7 +11,7 @@ use PDOException;
  * @author      Rudy Mas <rudy.mas@rmsoft.be>
  * @copyright   2014-2017, rmsoft.be. (http://www.rmsoft.be/)
  * @license     https://opensource.org/licenses/GPL-3.0 GNU General Public License, version 3 (GPL-3.0)
- * @version     5.2.0
+ * @version     5.2.1
  * @package     RudyMas\PDOExt
  */
 class DBconnect extends PDO
@@ -39,10 +39,12 @@ class DBconnect extends PDO
                     parent::__construct("mysql:host={$host};port={$port};charset={$charset};dbname={$dbname}", $username, $password);
                     // parent::setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
                     parent::setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                    parent::setAttribute(PDO::ATTR_ORACLE_NULLS, PDO::NULL_TO_STRING);
                     break;
                 case 'mssql':
                     parent::__construct("sqlsrv:server = tcp:{$host},{$port}; Database = {$dbname}", $username, $password);
                     parent::setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                    parent::setAttribute(PDO::ATTR_ORACLE_NULLS, PDO::NULL_TO_STRING);
                     break;
                 default:
                     die ($dbtype . ' isn\'t implemented yet!');
