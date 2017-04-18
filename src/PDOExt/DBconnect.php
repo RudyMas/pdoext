@@ -11,7 +11,7 @@ use PDOException;
  * @author      Rudy Mas <rudy.mas@rmsoft.be>
  * @copyright   2014-2017, rmsoft.be. (http://www.rmsoft.be/)
  * @license     https://opensource.org/licenses/GPL-3.0 GNU General Public License, version 3 (GPL-3.0)
- * @version     5.2.2
+ * @version     5.2.3
  * @package     RudyMas\PDOExt
  */
 class DBconnect extends PDO
@@ -113,9 +113,9 @@ class DBconnect extends PDO
      *
      * @param string $query
      * @param string $field
-     * @return array
+     * @return mixed
      */
-    public function queryItem(string $query, string $field): array
+    public function queryItem(string $query, string $field): mixed
     {
         try {
             $this->query($query);
@@ -131,15 +131,15 @@ class DBconnect extends PDO
      * This function will retrieve the first row from the executed query
      *
      * @param string $query
-     * @return array|bool
+     * @return bool
      */
-    public function queryRow(string $query)
+    public function queryRow(string $query): bool
     {
         try {
             $this->query($query);
             if ($this->rows == 0) return FALSE;
             $this->fetch(0);
-            return $this->data;
+            return true;
         } catch (PDOException $exception) {
             throw $exception;
         }
