@@ -11,7 +11,7 @@ use PDOException;
  * @author      Rudy Mas <rudy.mas@rmsoft.be>
  * @copyright   2014-2017, rmsoft.be. (http://www.rmsoft.be/)
  * @license     https://opensource.org/licenses/GPL-3.0 GNU General Public License, version 3 (GPL-3.0)
- * @version     5.2.3
+ * @version     5.2.4
  * @package     RudyMas\PDOExt
  */
 class DBconnect extends PDO
@@ -283,13 +283,13 @@ class DBconnect extends PDO
      * functon cleanSQL($content)
      * Quotes a string for use in a query.
      *
-     * @param string $content
+     * @param string|null $content
      * @return string
      */
-    public function cleanSQL(string $content): string
+    public function cleanSQL(string $content = null): string
     {
         try {
-            if ($content == null) {
+            if ($content === null) {
                 $output = parent::quote(null);
             } else {
                 $output = parent::quote($content);
