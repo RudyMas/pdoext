@@ -11,7 +11,7 @@ use PDOException;
  * @author      Rudy Mas <rudy.mas@rmsoft.be>
  * @copyright   2014-2017, rmsoft.be. (http://www.rmsoft.be/)
  * @license     https://opensource.org/licenses/GPL-3.0 GNU General Public License, version 3 (GPL-3.0)
- * @version     5.3.0
+ * @version     5.3.1
  * @package     RudyMas\PDOExt
  */
 class DBconnect extends PDO
@@ -161,9 +161,9 @@ class DBconnect extends PDO
 
     /**
      * @param string $statement
-     * @param array $options
+     * @param null $options
      */
-    public function prepare($statement, array $options = []): void
+    public function prepare($statement, $options = null): void
     {
         try {
             $this->result = parent::prepare($statement, $options);
