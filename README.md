@@ -2,7 +2,7 @@
 ## Installation
 Install the package using composer.
 ```
-composer require rudymas/pdo-ext
+composer install rudymas/pdo-ext
 ```
 
 ## Usage example
