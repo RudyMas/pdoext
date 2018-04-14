@@ -9,9 +9,9 @@ use PDOException;
  * Class DBconnect (PHP version 7.1)
  *
  * @author      Rudy Mas <rudy.mas@rmsoft.be>
- * @copyright   2014-2017, rmsoft.be. (http://www.rmsoft.be/)
+ * @copyright   2014-2018, rmsoft.be. (http://www.rmsoft.be/)
  * @license     https://opensource.org/licenses/GPL-3.0 GNU General Public License, version 3 (GPL-3.0)
- * @version     5.3.3
+ * @version     5.3.4
  * @package     RudyMas\PDOExt
  */
 class DBconnect extends PDO
@@ -29,7 +29,13 @@ class DBconnect extends PDO
      * @param string $charset
      * @param string $dbtype
      */
-    public function __construct(string $host = 'localhost', int $port = 3306, string $username = 'username', string $password = 'password', string $dbname = 'dbname', string $charset = 'utf8', string $dbtype = 'mysql')
+    public function __construct(string $host = 'localhost',
+                                int $port = 3306,
+                                string $username = 'username',
+                                string $password = 'password',
+                                string $dbname = 'dbname',
+                                string $charset = 'utf8',
+                                string $dbtype = 'mysql')
     {
         try {
             switch (strtolower($dbtype)) {
@@ -54,11 +60,14 @@ class DBconnect extends PDO
 
     /**
      * @param string $query
+     * @param int $mode
+     * @param null $arg3
+     * @param array $ctorargs
      */
-    public function query(string $query): void
+    public function query(string $query, int $mode = PDO::ATTR_DEFAULT_FETCH_MODE, $arg3 = null, array $ctorargs = array()): void
     {
         try {
-            $this->result = parent::query($query);
+            $this->result = parent::query($query, $mode, $arg3, $ctorargs);
             $this->internalData = $this->result->fetchAll(PDO::FETCH_ASSOC);
             $this->rows = count($this->internalData);
         } catch (PDOException $exception) {
@@ -163,7 +172,7 @@ class DBconnect extends PDO
      * @param string $statement
      * @param array $options
      */
-    public function prepare($statement, $options = []): void
+    public function prepare(string $statement, array $options = []): void
     {
         try {
             $this->result = parent::prepare($statement, $options);
@@ -182,12 +191,12 @@ class DBconnect extends PDO
      *      - PDO::PARAM_STR = Represents the SQL CHAR, VARCHAR, or other string data type
      *      - For more information: <a href="http://php.net/manual/en/pdo.constants.php">Predefined Constants</a>
      * @param null $length
-     * @param null $driverOptions
+     * @param null $driver_options
      */
-    public function bindParam($parameter, $variable, $dataType = PDO::PARAM_STR, $length = null, $driverOptions = null): void
+    public function bindParam($parameter, $variable, $dataType = PDO::PARAM_STR, $length = null, $driver_options = null): void
     {
         try {
-            $this->result->bindParam($parameter, $variable, $dataType, $length, $driverOptions);
+            $this->result->bindParam($parameter, $variable, $dataType, $length, $driver_options);
         } catch (PDOException $exception) {
             throw $exception;
         }
