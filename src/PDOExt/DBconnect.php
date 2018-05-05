@@ -2,6 +2,7 @@
 
 namespace RudyMas\PDOExt;
 
+use Exception;
 use PDO;
 use PDOException;
 
@@ -11,7 +12,7 @@ use PDOException;
  * @author      Rudy Mas <rudy.mas@rmsoft.be>
  * @copyright   2014-2017, rmsoft.be. (http://www.rmsoft.be/)
  * @license     https://opensource.org/licenses/GPL-3.0 GNU General Public License, version 3 (GPL-3.0)
- * @version     5.3.3
+ * @version     5.3.4.75
  * @package     RudyMas\PDOExt
  */
 class DBconnect extends PDO
@@ -28,6 +29,7 @@ class DBconnect extends PDO
      * @param string $dbname
      * @param string $charset
      * @param string $dbtype
+     * @throws Exception
      */
     public function __construct(string $host = 'localhost', int $port = 3306, string $username = 'username', string $password = 'password', string $dbname = 'dbname', string $charset = 'utf8', string $dbtype = 'mysql')
     {
@@ -45,7 +47,7 @@ class DBconnect extends PDO
                     parent::setAttribute(PDO::ATTR_ORACLE_NULLS, PDO::NULL_TO_STRING);
                     break;
                 default:
-                    die ($dbtype . ' isn\'t implemented yet!');
+                    throw new Exception("$dbtype isn't implemented yet!", 404);
             }
         } catch (PDOException $exception) {
             throw $exception;
@@ -213,12 +215,12 @@ class DBconnect extends PDO
     }
 
     /**
-     * @param array|null $input_params
+     * @param array|null $inputParams
      */
-    public function execute(array $input_params = null): void
+    public function execute(array $inputParams = null): void
     {
         try {
-            if ($this->result->execute($input_params)) {
+            if ($this->result->execute($inputParams)) {
                 $this->internalData = $this->result->fetchAll(PDO::FETCH_ASSOC);
             }
         } catch (PDOException $exception) {
@@ -245,12 +247,7 @@ class DBconnect extends PDO
     public function cleanSQL(string $content = null): string
     {
         try {
-            if ($content === null) {
-                $output = parent::quote(null);
-            } else {
-                $output = parent::quote($content);
-            }
-            return $output;
+            return $content === null ? parent::quote(null) : parent::quote($content);
         } catch (PDOException $exception) {
             throw $exception;
         }

@@ -1,13 +1,14 @@
 {
   "name": "rudymas/pdo-ext",
   "description": "A PDO extension class",
-  "version": "5.3.3",
   "type": "library",
-  "license": "GPL-3.0",
+  "license": "GPL-3.0-or-later",
   "authors": [
     {
       "name": "Rudy Mas",
-      "email": "rudy.mas@rmsoft.be"
+      "email": "rudy.mas@rmsoft.be",
+      "homepage": "http://www.rmsoft.be",
+      "role": "Developer"
     }
   ],
   "minimum-stability": "stable",
@@ -15,6 +16,9 @@
     "php": ">= 7.1"
   },
   "autoload": {
+    "classmap": [
+      "src/"
+    ],
     "psr-4": {
       "RudyMas\\PDOExt\\": "src/"
     }
