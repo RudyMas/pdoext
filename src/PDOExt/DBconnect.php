@@ -171,7 +171,7 @@ class DBconnect extends PDO
      * @param string $statement
      * @param array $options
      */
-    public function prepare(string $statement, array $options = []): void
+    public function prepare($statement, $options = null): void
     {
         try {
             $this->result = parent::prepare($statement, $options);
