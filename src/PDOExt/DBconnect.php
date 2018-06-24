@@ -5,6 +5,7 @@ namespace RudyMas\PDOExt;
 use Exception;
 use PDO;
 use PDOException;
+use PDOStatement;
 
 /**
  * Class DBconnect (PHP version 7.1)
@@ -12,7 +13,7 @@ use PDOException;
  * @author      Rudy Mas <rudy.mas@rmsoft.be>
  * @copyright   2014-2018, rmsoft.be. (http://www.rmsoft.be/)
  * @license     https://opensource.org/licenses/GPL-3.0 GNU General Public License, version 3 (GPL-3.0)
- * @version     5.3.7.77
+ * @version     5.3.8.78
  * @package     RudyMas\PDOExt
  */
 class DBconnect extends PDO
@@ -168,73 +169,6 @@ class DBconnect extends PDO
     }
 
     /**
-     * @param string $statement
-     * @param array $options
-     */
-    public function prepare($statement, $options = []): void
-    {
-        try {
-            $this->result = parent::prepare($statement, $options);
-        } catch (PDOException $exception) {
-            throw $exception;
-        }
-    }
-
-    /**
-     * @param $parameter
-     * @param $variable
-     * @param int $dataType
-     *      - PDO::PARAM_BOOL = Represents a boolean data type
-     *      - PDO::PARAM_NULL = Represents the SQL NULL data type
-     *      - PDO::PARAM_INT = Represents the SQL INTEGER data type
-     *      - PDO::PARAM_STR = Represents the SQL CHAR, VARCHAR, or other string data type
-     *      - For more information: <a href="http://php.net/manual/en/pdo.constants.php">Predefined Constants</a>
-     * @param null $length
-     * @param null $driver_options
-     */
-    public function bindParam($parameter, $variable, $dataType = PDO::PARAM_STR, $length = null, $driver_options = null): void
-    {
-        try {
-            $this->result->bindParam($parameter, $variable, $dataType, $length, $driver_options);
-        } catch (PDOException $exception) {
-            throw $exception;
-        }
-    }
-
-    /**
-     * @param $parameter
-     * @param $value
-     * @param int $dataType
-     *      - PDO::PARAM_BOOL = Represents a boolean data type
-     *      - PDO::PARAM_NULL = Represents the SQL NULL data type
-     *      - PDO::PARAM_INT = Represents the SQL INTEGER data type
-     *      - PDO::PARAM_STR = Represents the SQL CHAR, VARCHAR, or other string data type
-     *      - For more information: <a href="http://php.net/manual/en/pdo.constants.php">Predefined Constants</a>
-     */
-    public function bindValue($parameter, $value, $dataType = PDO::PARAM_STR): void
-    {
-        try {
-            $this->result->bindValue($parameter, $value, $dataType);
-        } catch (PDOException $exception) {
-            throw $exception;
-        }
-    }
-
-    /**
-     * @param array|null $inputParams
-     */
-    public function execute(array $inputParams = null): void
-    {
-        try {
-            if ($this->result->execute($inputParams)) {
-                $this->internalData = $this->result->fetchAll(PDO::FETCH_ASSOC);
-            }
-        } catch (PDOException $exception) {
-            throw $exception;
-        }
-    }
-
-    /**
      * @param null|string $name
      * @return string
      */
@@ -259,6 +193,13 @@ class DBconnect extends PDO
         }
     }
 
+    /**
+     * @param mixed $internalData
+     */
+    public function setInternalData($internalData): void
+    {
+        $this->internalData = $internalData;
+    }
 }
 
 /** End of File: DBconnect.php **/
