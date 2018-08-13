@@ -13,7 +13,7 @@ use PDOStatement;
  * @author      Rudy Mas <rudy.mas@rmsoft.be>
  * @copyright   2014-2018, rmsoft.be. (http://www.rmsoft.be/)
  * @license     https://opensource.org/licenses/GPL-3.0 GNU General Public License, version 3 (GPL-3.0)
- * @version     5.3.9.79
+ * @version     5.4.0.80
  * @package     RudyMas\PDOExt
  */
 class DBconnect extends PDO
@@ -87,33 +87,27 @@ class DBconnect extends PDO
         }
     }
 
-    /**
-     * @param int $row
-     */
-    public function fetch(int $row): void
-    {
-        $this->data = $this->internalData[$row];
-    }
-
     public function fetchAll(): void
     {
         $this->data = $this->internalData;
     }
 
     /**
-     * @param string $query
-     * @param string $field
-     * @return string
+     * @deprecated
+     * @param int $row
      */
-    public function queryItem(string $query, string $field): string
+    public function fetch(int $row): void
     {
-        try {
-            $this->query($query);
-            $this->fetch(0);
-            return $this->data[$field];
-        } catch (PDOException $exception) {
-            throw $exception;
-        }
+        trigger_error('Use "fetchRow" instead.', E_USER_DEPRECATED);
+        $this->fetchRow($row);
+    }
+
+    /**
+     * @param int $row
+     */
+    public function fetchRow(int $row): void
+    {
+        $this->data = $this->internalData[$row];
     }
 
     /**
@@ -125,8 +119,24 @@ class DBconnect extends PDO
         try {
             $this->query($query);
             if ($this->rows == 0) return false;
-            $this->fetch(0);
+            $this->fetchRow(0);
             return true;
+        } catch (PDOException $exception) {
+            throw $exception;
+        }
+    }
+
+    /**
+     * @param string $query
+     * @param string $field
+     * @return string
+     */
+    public function queryItem(string $query, string $field): string
+    {
+        try {
+            $this->query($query);
+            $this->fetchRow(0);
+            return $this->data[$field];
         } catch (PDOException $exception) {
             throw $exception;
         }
@@ -192,14 +202,4 @@ class DBconnect extends PDO
             throw $exception;
         }
     }
-
-    /**
-     * @param mixed $internalData
-     */
-    public function setInternalData($internalData): void
-    {
-        $this->internalData = $internalData;
-    }
 }
-
-/** End of File: DBconnect.php **/
