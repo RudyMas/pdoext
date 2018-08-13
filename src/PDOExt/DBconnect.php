@@ -13,7 +13,7 @@ use PDOStatement;
  * @author      Rudy Mas <rudy.mas@rmsoft.be>
  * @copyright   2014-2018, rmsoft.be. (http://www.rmsoft.be/)
  * @license     https://opensource.org/licenses/GPL-3.0 GNU General Public License, version 3 (GPL-3.0)
- * @version     5.3.8.78
+ * @version     5.3.9.79
  * @package     RudyMas\PDOExt
  */
 class DBconnect extends PDO
