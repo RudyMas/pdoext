@@ -5,7 +5,6 @@ namespace RudyMas\PDOExt;
 use Exception;
 use PDO;
 use PDOException;
-use PDOStatement;
 
 /**
  * Class DBconnect (PHP version 7.1)
