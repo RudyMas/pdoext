@@ -13,7 +13,7 @@ use PDOStatement;
  * @author      Rudy Mas <rudy.mas@rmsoft.be>
  * @copyright   2014-2018, rmsoft.be. (http://www.rmsoft.be/)
  * @license     https://opensource.org/licenses/GPL-3.0 GNU General Public License, version 3 (GPL-3.0)
- * @version     5.4.0.80
+ * @version     5.4.1.81
  * @package     RudyMas\PDOExt
  */
 class DBconnect extends PDO
@@ -30,6 +30,7 @@ class DBconnect extends PDO
      * @param string $dbname
      * @param string $charset
      * @param string $dbtype
+     * @param string $timezone
      * @throws Exception
      */
     public function __construct(string $host = 'localhost',
@@ -38,12 +39,13 @@ class DBconnect extends PDO
                                 string $password = 'password',
                                 string $dbname = 'dbname',
                                 string $charset = 'utf8',
-                                string $dbtype = 'mysql')
+                                string $dbtype = 'mysql',
+                                string $timezone = 'Europe/Brussels')
     {
         try {
             switch (strtolower($dbtype)) {
                 case 'mysql':
-                    parent::__construct("mysql:host={$host};port={$port};charset={$charset};dbname={$dbname}", $username, $password);
+                    parent::__construct("mysql:host={$host};port={$port};charset={$charset};dbname={$dbname}", $username, $password, [PDO::MYSQL_ATTR_INIT_COMMAND => "SET time_zone = '{$timezone}'"]);
                     // parent::setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
                     parent::setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                     parent::setAttribute(PDO::ATTR_ORACLE_NULLS, PDO::NULL_TO_STRING);
