@@ -10,9 +10,9 @@ use PDOException;
  * Class DBconnect (PHP version 7.1)
  *
  * @author      Rudy Mas <rudy.mas@rmsoft.be>
- * @copyright   2014-2018, rmsoft.be. (http://www.rmsoft.be/)
+ * @copyright   2014-2020, rmsoft.be. (http://www.rmsoft.be/)
  * @license     https://opensource.org/licenses/GPL-3.0 GNU General Public License, version 3 (GPL-3.0)
- * @version     5.4.1.81
+ * @version     5.4.1.82
  * @package     RudyMas\PDOExt
  */
 class DBconnect extends PDO

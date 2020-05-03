@@ -17,9 +17,6 @@
     "ext-pdo": "*"
   },
   "autoload": {
-    "classmap": [
-      "src/"
-    ],
     "psr-4": {
       "RudyMas\\PDOExt\\": "src/"
     }
