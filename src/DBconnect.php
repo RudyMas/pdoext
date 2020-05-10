@@ -1,18 +1,18 @@
 <?php
 
-namespace RudyMas\PDOExt;
+namespace RudyMas;
 
 use Exception;
 use PDO;
 use PDOException;
 
 /**
- * Class DBconnect (PHP version 7.1)
+ * Class DBconnect (PHP version 7.2)
  *
  * @author      Rudy Mas <rudy.mas@rmsoft.be>
  * @copyright   2014-2020, rmsoft.be. (http://www.rmsoft.be/)
  * @license     https://opensource.org/licenses/GPL-3.0 GNU General Public License, version 3 (GPL-3.0)
- * @version     5.4.1.82
+ * @version     5.4.2.0
  * @package     RudyMas\PDOExt
  */
 class DBconnect extends PDO
@@ -32,14 +32,16 @@ class DBconnect extends PDO
      * @param string $timezone
      * @throws Exception
      */
-    public function __construct(string $host = 'localhost',
-                                int $port = 3306,
-                                string $username = 'username',
-                                string $password = 'password',
-                                string $dbname = 'dbname',
-                                string $charset = 'utf8',
-                                string $dbtype = 'mysql',
-                                string $timezone = 'Europe/Brussels')
+    public function __construct(
+        string $host = 'localhost',
+        int $port = 3306,
+        string $username = 'username',
+        string $password = 'password',
+        string $dbname = 'dbname',
+        string $charset = 'utf8',
+        string $dbtype = 'mysql',
+        string $timezone = 'Europe/Brussels'
+    )
     {
         try {
             switch (strtolower($dbtype)) {
@@ -64,11 +66,14 @@ class DBconnect extends PDO
 
     /**
      * @param string $query
+     * @param int $mode
+     * @param null $arg3
+     * @param array $ctorargs
      */
-    public function query(string $query): void
+    public function query($query, $mode = PDO::ATTR_DEFAULT_FETCH_MODE, $arg3 = null, array $ctorargs = []): void
     {
         try {
-            $this->result = parent::query($query);
+            $this->result = parent::query($query, $mode, $arg3, $ctorargs);
             $this->internalData = $this->result->fetchAll(PDO::FETCH_ASSOC);
             $this->rows = count($this->internalData);
         } catch (PDOException $exception) {
@@ -94,8 +99,8 @@ class DBconnect extends PDO
     }
 
     /**
-     * @deprecated
      * @param int $row
+     * @deprecated
      */
     public function fetch(int $row): void
     {
