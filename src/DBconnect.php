@@ -12,8 +12,8 @@ use PDOException;
  * @author      Rudy Mas <rudy.mas@rmsoft.be>
  * @copyright   2014-2020, rmsoft.be. (http://www.rmsoft.be/)
  * @license     https://opensource.org/licenses/GPL-3.0 GNU General Public License, version 3 (GPL-3.0)
- * @version     5.4.2.0
- * @package     RudyMas\PDOExt
+ * @version     5.4.2.1
+ * @package     RudyMas
  */
 class DBconnect extends PDO
 {
