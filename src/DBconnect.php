@@ -12,7 +12,7 @@ use PDOException;
  * @author      Rudy Mas <rudy.mas@rmsoft.be>
  * @copyright   2014-2020, rmsoft.be. (http://www.rmsoft.be/)
  * @license     https://opensource.org/licenses/GPL-3.0 GNU General Public License, version 3 (GPL-3.0)
- * @version     5.4.2.1
+ * @version     5.5.0.0
  * @package     RudyMas
  */
 class DBconnect extends PDO
@@ -52,7 +52,14 @@ class DBconnect extends PDO
                     parent::setAttribute(PDO::ATTR_ORACLE_NULLS, PDO::NULL_TO_STRING);
                     break;
                 case 'mssql':
+                case 'sybase':
                     parent::__construct("sqlsrv:server = tcp:{$host},{$port}; Database = {$dbname}", $username, $password);
+                    parent::setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                    parent::setAttribute(PDO::ATTR_ORACLE_NULLS, PDO::NULL_TO_STRING);
+                    break;
+                case 'odbc_mssql':
+                case 'odbc_sybase':
+                    parent::__construct("odbc:Driver={ODBC Driver 17 for SQL Server};Server={$host},{$port};Database={$dbname}", $username, $password);
                     parent::setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                     parent::setAttribute(PDO::ATTR_ORACLE_NULLS, PDO::NULL_TO_STRING);
                     break;
