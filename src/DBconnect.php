@@ -12,7 +12,7 @@ use PDOException;
  * @author      Rudy Mas <rudy.mas@rmsoft.be>
  * @copyright   2014-2020, rmsoft.be. (http://www.rmsoft.be/)
  * @license     https://opensource.org/licenses/GPL-3.0 GNU General Public License, version 3 (GPL-3.0)
- * @version     5.6.0.0
+ * @version     5.6.0.1
  * @package     RudyMas
  */
 class DBconnect extends PDO
@@ -75,7 +75,8 @@ class DBconnect extends PDO
      */
     public function query($query, $mode = PDO::ATTR_DEFAULT_FETCH_MODE,$arg3 = null, array $ctorargs = []): void
     {
-        $this->result = parent::query($query, $mode, $arg3, $ctorargs);
+//        $this->result = parent::query($query, $mode, $arg3, $ctorargs);
+        $this->result = parent::query($query);
         $this->internalData = $this->result->fetchAll(PDO::FETCH_ASSOC);
         $this->rows = count($this->internalData);
     }
