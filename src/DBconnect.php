@@ -4,7 +4,6 @@ namespace RudyMas;
 
 use Exception;
 use PDO;
-use PDOException;
 
 /**
  * Class DBconnect (PHP version 7.4)
@@ -12,7 +11,7 @@ use PDOException;
  * @author      Rudy Mas <rudy.mas@rmsoft.be>
  * @copyright   2014-2020, rmsoft.be. (http://www.rmsoft.be/)
  * @license     https://opensource.org/licenses/GPL-3.0 GNU General Public License, version 3 (GPL-3.0)
- * @version     5.6.0.1
+ * @version     7.4.0.0
  * @package     RudyMas
  */
 class DBconnect extends PDO
