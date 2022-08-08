@@ -9,7 +9,7 @@ use PDO;
  * Class DBconnect (PHP version 8.1)
  *
  * @author      Rudy Mas <rudy.mas@rmsoft.be>
- * @copyright   2014-2020, rmsoft.be. (http://www.rmsoft.be/)
+ * @copyright   2014-2022, rmsoft.be. (http://www.rmsoft.be/)
  * @license     https://opensource.org/licenses/GPL-3.0 GNU General Public License, version 3 (GPL-3.0)
  * @version     8.1.0.0
  * @package     RudyMas
@@ -73,6 +73,7 @@ class DBconnect extends PDO
      *
      * @return void
      */
+    #[\ReturnTypeWillChange]
     public function query(string $statement, ?int $mode = PDO::ATTR_DEFAULT_FETCH_MODE, mixed ...$fetch_mode_args): void
     {
         $this->result = parent::query($statement, $mode, ...$fetch_mode_args);
