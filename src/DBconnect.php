@@ -11,7 +11,7 @@ use PDO;
  * @author      Rudy Mas <rudy.mas@rmsoft.be>
  * @copyright   2014-2022, rmsoft.be. (http://www.rmsoft.be/)
  * @license     https://opensource.org/licenses/GPL-3.0 GNU General Public License, version 3 (GPL-3.0)
- * @version     8.1.0.0
+ * @version     8.1.1.0
  * @package     RudyMas
  */
 class DBconnect extends PDO
@@ -68,13 +68,12 @@ class DBconnect extends PDO
 
     /**
      * @param  string  $statement
-     * @param  int|null  $mode
+     * @param  int  $mode
      * @param  mixed  ...$fetch_mode_args
      *
      * @return void
      */
-    #[\ReturnTypeWillChange]
-    public function query(string $statement, ?int $mode = PDO::ATTR_DEFAULT_FETCH_MODE, mixed ...$fetch_mode_args): void
+    public function queryDB(string $statement, int $mode = PDO::ATTR_DEFAULT_FETCH_MODE, mixed ...$fetch_mode_args): void
     {
         $this->result = parent::query($statement, $mode, ...$fetch_mode_args);
         $this->internalData = $this->result->fetchAll(PDO::FETCH_ASSOC);
@@ -118,7 +117,7 @@ class DBconnect extends PDO
      */
     public function queryRow(string $query): bool
     {
-        $this->query($query);
+        $this->queryDB($query);
         if ($this->rows == 0) return false;
         $this->fetchRow(0);
         return true;
@@ -131,7 +130,7 @@ class DBconnect extends PDO
      */
     public function queryItem(string $query, string $field): string
     {
-        $this->query($query);
+        $this->queryDB($query);
         $this->fetchRow(0);
         return $this->data[$field];
     }
