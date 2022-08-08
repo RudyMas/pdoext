@@ -6,12 +6,12 @@ use Exception;
 use PDO;
 
 /**
- * Class DBconnect (PHP version 7.4)
+ * Class DBconnect (PHP version 8.1)
  *
  * @author      Rudy Mas <rudy.mas@rmsoft.be>
  * @copyright   2014-2020, rmsoft.be. (http://www.rmsoft.be/)
  * @license     https://opensource.org/licenses/GPL-3.0 GNU General Public License, version 3 (GPL-3.0)
- * @version     7.4.0.0
+ * @version     8.1.0.0
  * @package     RudyMas
  */
 class DBconnect extends PDO
@@ -67,15 +67,15 @@ class DBconnect extends PDO
     }
 
     /**
-     * @param string $query
-     * @param int $mode
-     * @param null $arg3
-     * @param array $ctorargs
+     * @param  string  $statement
+     * @param  int|null  $mode
+     * @param  mixed  ...$fetch_mode_args
+     *
+     * @return void
      */
-    public function query($query, $mode = PDO::ATTR_DEFAULT_FETCH_MODE,$arg3 = null, array $ctorargs = []): void
+    public function query(string $statement, ?int $mode = PDO::ATTR_DEFAULT_FETCH_MODE, mixed ...$fetch_mode_args): void
     {
-//        $this->result = parent::query($query, $mode, $arg3, $ctorargs);
-        $this->result = parent::query($query);
+        $this->result = parent::query($statement, $mode, ...$fetch_mode_args);
         $this->internalData = $this->result->fetchAll(PDO::FETCH_ASSOC);
         $this->rows = count($this->internalData);
     }
