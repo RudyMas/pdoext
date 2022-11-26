@@ -11,7 +11,7 @@ use PDO;
  * @author      Rudy Mas <rudy.mas@rmsoft.be>
  * @copyright   2014-2022, rmsoft.be. (http://www.rmsoft.be/)
  * @license     https://opensource.org/licenses/GPL-3.0 GNU General Public License, version 3 (GPL-3.0)
- * @version     8.1.1.0
+ * @version     8.1.1.1
  * @package     RudyMas
  */
 class DBconnect extends PDO
@@ -73,7 +73,7 @@ class DBconnect extends PDO
      *
      * @return void
      */
-    public function queryDB(string $statement, int $mode = PDO::ATTR_DEFAULT_FETCH_MODE, mixed ...$fetch_mode_args): void
+    public function queryDB(string $statement, int $mode = PDO::FETCH_ASSOC, mixed ...$fetch_mode_args): void
     {
         $this->result = parent::query($statement, $mode, ...$fetch_mode_args);
         $this->internalData = $this->result->fetchAll(PDO::FETCH_ASSOC);
